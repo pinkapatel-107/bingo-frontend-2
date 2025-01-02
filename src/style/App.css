@@ -1,0 +1,158 @@
+
+.bingo-game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to bottom, #8360c3, #2ebf91);
+  /* background: url('https://wallpapers.com/images/high/bingo-balls-in-pink-uv8mnldd08dlyeog.webp') no-repeat center center / cover; */
+  min-height: 100vh;
+  color: white;
+  padding: 20px;
+  cursor: pointer;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.game-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px 20px;
+  border-radius: 8px;
+  width: 80%;
+  margin-bottom: 35px;
+  font-size: 1.2rem;
+}
+
+.bingo-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.grid-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  color: black;
+  width: 60px;
+  height: 60px;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.grid-item:hover {
+  transform: scale(1.1);
+}
+/* loader css */
+/* Full page container */
+.loader-box-container {
+  display: flex;
+  margin-top: 5%;
+  width: 100%;
+  height: 80%;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+/* Centered box */
+.loader-box {
+  width: 400px;
+  padding: 30px;
+  border-radius: 10px;
+  background-color: #ffffff; /* White background for the box */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  text-align: center;
+}
+
+/* Spinner styles */
+.loader-circle {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #e0e0e0; /* Light gray border */
+  border-top: 5px solid #007bff; /* Highlight color */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px; /* Center spinner and add margin below */
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Title styles */
+.loader-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #343a40; /* Dark gray for the title */
+}
+
+/* Subtext styles */
+.loader-subtext {
+  font-size: 16px;
+  color: #6c757d; 
+  
+}
+.receiveNumber-container{
+  /* background: linear-gradient(to bottom, #dad5e2, #63a08d); */
+  border: 2px solid white;
+  border-radius: 5px;
+  padding: 5px 5px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #3e8e41;
+  width: 5rem;
+  /* display: inline-block;
+  text-align: center;
+  margin: 10px;
+  margin-top: 2.5rem; */
+}
+.bingo-cell {
+  background-color: #ffffff;
+  border: 2px solid #3e8e41;
+  border-radius: 5px;
+  font-size: 1.5rem; /* Increase font size for clarity */
+  width: 3rem; /* Set fixed width for consistency */
+  height: 3rem; /* Set fixed height for consistency */
+  text-align: center;
+  line-height: 3rem; /* Center the number vertically */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.bingo-cell:hover {
+  background-color: #aef3be;
+}
+.disabled-cell {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.red-cell {
+  background-color: rgb(235, 113, 113);
+  cursor: none;
+}
+.find-button{
+  padding: 10px 15px;
+  background: #b296e5;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}

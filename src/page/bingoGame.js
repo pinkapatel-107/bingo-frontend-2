@@ -4,6 +4,7 @@ import socket from "../socket/socket";
 import { DataContext } from "../DataContext";
 import Loader from "../components/Loader";
 import checkBingoWin from "../utils/bingoHandler";
+import Chat from "../components/Chat";
 
 const BingoGame = () => {
   const context = useContext(DataContext);
@@ -11,6 +12,7 @@ const BingoGame = () => {
   const [isTimeOver, setIsTimeOver] = useState(false);
   const [remainingTime, setRemainingTime] = useState(25);
   const [timer, setTimer] = useState("");
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   useEffect(() => {
     if (player1Grid.length > 0) {
@@ -40,7 +42,7 @@ const BingoGame = () => {
       context.setCurrentTurn(newTurn);
     });
     socket.listenGameStatus((onGameStatus) => {
-      console.log("onGameStatus === >",onGameStatus);
+      console.log("onGameStatus === >", onGameStatus);
       context.setGameStatusMessage(onGameStatus);
     });
     socket.listenDisconnection((onDisconnectPlayer) => {
@@ -111,7 +113,6 @@ const BingoGame = () => {
       handleTimeOver();
     }
   }, [isTimeOver]);
-  
 
   const onClick = (number) => {
     console.log("socketid ===== >", socket.socket.id);
@@ -142,7 +143,9 @@ const BingoGame = () => {
       }
 
       const nextTurn =
-        context.currentTurn === "first player" ? "second player" : "first player";
+        context.currentTurn === "first player"
+          ? "second player"
+          : "first player";
 
       context.setCurrentTurn(nextTurn);
       socket.emitTurnChange(nextTurn);
@@ -151,13 +154,25 @@ const BingoGame = () => {
     }
   };
 
+  const chatButtonClick = () => {
+    setIsChatOpen(true);
+  };
+
   const isDisabled = context.isRoomJoin.player !== context.currentTurn;
   return (
     <div className="bingo-game-container">
-      {!context.isRoomJoin?.message &&<Loader title="Please wait while we connect you with an opponent..."/>}
-      {context.isOpponentDisconnected&& <Loader title="Your opponent has disconnected. Find a new opponent?"isDisconnected/> }
-      {context.gameStatusMessage&&<NewGameOver message={context.gameStatusMessage}/>
-      }
+      {!context.isRoomJoin?.message && (
+        <Loader title="Please wait while we connect you with an opponent..." />
+      )}
+      {context.isOpponentDisconnected && (
+        <Loader
+          title="Your opponent has disconnected. Find a new opponent?"
+          isDisconnected
+        />
+      )}
+      {context.gameStatusMessage && (
+        <NewGameOver message={context.gameStatusMessage} />
+      )}
       <h1 className="title">Bingo Game</h1>
       <div className="game-info">
         <span>
@@ -169,8 +184,8 @@ const BingoGame = () => {
             {context.receiverNumber}
           </span>
         </span>
-        {!isDisabled&&<span>Your Remaining Time : {remainingTime}s</span>}
-        {isDisabled&&<span>Your Opponent's Time : {remainingTime}s</span>}
+        {!isDisabled && <span>Your Remaining Time : {remainingTime}s</span>}
+        {isDisabled && <span>Your Opponent's Time : {remainingTime}s</span>}
       </div>
       <div className="bingo-grid">
         {player1Grid.map((num, index) => {
@@ -188,6 +203,12 @@ const BingoGame = () => {
             </div>
           );
         })}
+        <div>
+          <button className="chat-toggle" onClick={chatButtonClick}>
+            {isChatOpen ? "Close Chat" : "Open Chat"}
+          </button>
+          {isChatOpen && <Chat/>}
+        </div>
       </div>
     </div>
   );
@@ -203,4 +224,4 @@ const generateRandomNumbers = () => {
 };
 
 export default BingoGame;
- // still not working timer funcation 
+// still not working timer funcation

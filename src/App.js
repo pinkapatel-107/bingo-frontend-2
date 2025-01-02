@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"; // Add `Route` to the import
 import BingoGame from "./page/bingoGame";
+import Chat from "./components/Chat"
 // import "./style/App.css"
 // import NewGameOver from "./components/NewGameOver";
 
@@ -8,7 +9,7 @@ function App() {
     <BrowserRouter>
       <Routes>
       <Route path="/" element={<BingoGame />} />
-      {/* <Route path="/game-over" element={<NewGameOver/>}/> */}
+      <Route path="/chat" element={<Chat/>}/>
       </Routes>
     </BrowserRouter>
   );

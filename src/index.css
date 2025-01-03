@@ -25,6 +25,7 @@ code {
   padding: 20px;
   cursor: pointer;
   position: relative;
+  height: fit-content;
 }
 
 .title {
@@ -176,12 +177,7 @@ code {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  max-height: 50px; /* Set a maximum height for the chat */
-  overflow-y: auto;  /* Enable vertical scrolling if content exceeds max-height */
-  width: 300px;      /* Set a width to ensure proper layout */
-  border: 1px solid #ccc;
-  background-color: #fff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+ 
 }
 
 
@@ -273,9 +269,10 @@ code {
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  position: absolute;
+  position: fixed;
   /* left: 0; */
-  right: 5%;
+  right: 8%;
+  bottom: 15px;
 }
 
 .chat-popup {

@@ -45,6 +45,7 @@ const BingoGame = () => {
       console.log("onGameStatus === >", onGameStatus);
       context.setGameStatusMessage(onGameStatus);
     });
+
     socket.listenDisconnection((onDisconnectPlayer) => {
       console.log("onDisconnectPlayer ==== >", onDisconnectPlayer);
       context.setIsRoomJoin(false);
@@ -53,9 +54,20 @@ const BingoGame = () => {
       context.setGameStatusMessage("");
       localStorage.removeItem("chatHistory");
       context.setIsOpponentDisconnected(true);
-      
     });
   });
+
+  useEffect(() => {
+    const handleIncomingMessage = (data) => {
+      console.log("receive chat message ==== >", data);
+      const newMessage = { user: data.user, text: data.message };
+      console.log("newMessage ==== >",newMessage)
+      context.setChatHistory((prev) => [...prev, newMessage]);
+      console.log("receive message === >",context.chatHistory)
+    };
+    socket.listenChatMessage(handleIncomingMessage);
+  }, []);
+
   console.log("setIsRoomJoin === >", context.isRoomJoin);
   console.log("currentTurn ==== >", context.currentTurn);
 
@@ -158,7 +170,7 @@ const BingoGame = () => {
 
   const chatButtonClick = (e) => {
     console.log("chatButton click === >", e.target);
-    setIsChatOpen((prevState) => !prevState); 
+    setIsChatOpen((prevState) => !prevState);
   };
 
   const isDisabled = context.isRoomJoin.player !== context.currentTurn;
@@ -210,7 +222,9 @@ const BingoGame = () => {
           <button className="chat-toggle" onClick={chatButtonClick}>
             {isChatOpen ? "Close Chat" : "Open Chat"}
           </button>
-          {isChatOpen &&!context.isOpponentDisconnected && <Chat socket={socket}/>}
+          {isChatOpen && !context.isOpponentDisconnected && (
+            <Chat socket={socket} />
+          )}
         </div>
       </div>
     </div>

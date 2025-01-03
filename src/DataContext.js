@@ -11,6 +11,7 @@ const DataProvider = ({ children }) => {
   const [gameStatusMessage, setGameStatusMessage] = useState("");
   const [winPlayer, setWinPlayer] = useState("");
   const [isOpponentDisconnected, setIsOpponentDisconnected] = useState(false);
+  const [chatHistory, setChatHistory] = useState([]);
 
   const value = {
     isRoomJoin,
@@ -28,7 +29,9 @@ const DataProvider = ({ children }) => {
     winPlayer,
     setWinPlayer,
     isOpponentDisconnected,
-    setIsOpponentDisconnected
+    setIsOpponentDisconnected,
+    chatHistory,
+    setChatHistory
   };
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 };

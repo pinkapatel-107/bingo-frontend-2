@@ -1,42 +1,36 @@
-import React, { useEffect, useState } from "react";
-import socket from "../socket/socket";
+import React, { useEffect, useState, useContext } from "react";
+import { DataContext } from "../DataContext";
 
 const ChatComponent = ({ socket }) => {
   const [message, setMessage] = useState("");
-  const [chatHistory, setChatHistory] = useState([]);
+  const context = useContext(DataContext);
 
   useEffect(() => {
-    const storedChatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
-    setChatHistory(storedChatHistory);
-
-    socket?.listenChatMessage((data) => {
-      const newMessage = { user: data.user, text: data.message };
-      setChatHistory((prev) => {
-        const updatedHistory = [...prev, newMessage];
-        localStorage.setItem("chatHistory", JSON.stringify(updatedHistory)); 
-        return updatedHistory;
+    const handleIncomingMessage = (data) => {
+      console.log("receive chat message ==== >", data);
+      
+      const newMessage = { user: data.user, text: data.message, messageId: data.msgId };
+      context.setChatHistory((prev) => {
+        const isDuplicate = prev.some((message) => message. msgId === newMessage. msgId);
+        if (!isDuplicate) {
+          return [...prev, newMessage]; 
+        }
+        return prev;
       });
-    });
-
-    return () => {
-      socket.listenDisconnection();
     };
+    
+    socket.listenChatMessage(handleIncomingMessage);
+    
   }, []);
 
   const handleSendMessage = () => {
     if (message) {
-      // const newMessage = { user: currentUser, text: message };
-      console.log("Sending message ====>", message);
-      console.log("Socket ID ====>", socket.socket.id);
-
       socket.emitChatMessage({
-        socketId: socket.socket.id,
         message: message,
       });
       setMessage("");
     }
   };
-
   return (
     <div className="chat-container">
       <div className="chat-popup">
@@ -44,7 +38,7 @@ const ChatComponent = ({ socket }) => {
           <h4>Chat</h4>
         </div>
         <div className="chat-body">
-          {chatHistory.map((msg, index) => (
+          {context.chatHistory.map((msg, index) => (
             <div
               key={index}
               className={`chat-message ${

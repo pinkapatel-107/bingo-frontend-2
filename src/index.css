@@ -326,6 +326,7 @@ code {
   background-color: hsl(92, 54%, 65%);
   align-self: flex-end;
   text-align: right;
+  justify-self: end
   /* display: flex; */
   /* justify-content: end; */
   /* width: fit-content; */
@@ -334,6 +335,7 @@ code {
 .chat-message.receiver {
   background-color: #dad3d3;
   align-self: flex-start;
+  justify-self: start
   /* display: flex; */
   /* justify-content: end; */
   /* width: fit-content; */

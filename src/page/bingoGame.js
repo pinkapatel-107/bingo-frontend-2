@@ -51,7 +51,9 @@ const BingoGame = () => {
       context.setCheckedNumbers([]);
       context.setMyBoard([]);
       context.setGameStatusMessage("");
+      localStorage.removeItem("chatHistory");
       context.setIsOpponentDisconnected(true);
+      
     });
   });
   console.log("setIsRoomJoin === >", context.isRoomJoin);
@@ -165,7 +167,7 @@ const BingoGame = () => {
       {!context.isRoomJoin?.message && (
         <Loader title="Please wait while we connect you with an opponent..." />
       )}
-      {context.isOpponentDisconnected && (
+      {context?.isOpponentDisconnected && (
         <Loader
           title="Your opponent has disconnected. Find a new opponent?"
           isDisconnected
@@ -208,7 +210,7 @@ const BingoGame = () => {
           <button className="chat-toggle" onClick={chatButtonClick}>
             {isChatOpen ? "Close Chat" : "Open Chat"}
           </button>
-          {isChatOpen && <Chat socket={socket}/>}
+          {isChatOpen &&!context.isOpponentDisconnected && <Chat socket={socket}/>}
         </div>
       </div>
     </div>

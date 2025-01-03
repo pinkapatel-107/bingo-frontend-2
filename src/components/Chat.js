@@ -1,58 +1,57 @@
 import React, { useEffect, useState } from "react";
 import socket from "../socket/socket";
 
-const ChatComponent = (socketId) => {
+const ChatComponent = ({ socket }) => {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
-  const [currentUser, setCurrentUser] = useState("You");
 
   useEffect(() => {
-    // socket.connectToSocket((data) => {
-    //   console.log("Socket connected successfully ====>", data);
-    // });
-    socket.listenChatMessage((data) => {
-      setChatHistory((prev) => [
-        ...prev,
-        { user: data.user, text: data.message },
-      ]);
+    const storedChatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
+    setChatHistory(storedChatHistory);
+
+    socket?.listenChatMessage((data) => {
+      const newMessage = { user: data.user, text: data.message };
+      setChatHistory((prev) => {
+        const updatedHistory = [...prev, newMessage];
+        localStorage.setItem("chatHistory", JSON.stringify(updatedHistory)); 
+        return updatedHistory;
+      });
     });
+
     return () => {
       socket.listenDisconnection();
     };
   }, []);
 
   const handleSendMessage = () => {
-    console.log("Sending message ====>", message);
-    console.log("Socket ID ====>", socketId.socket.id);
-
     if (message) {
+      // const newMessage = { user: currentUser, text: message };
+      console.log("Sending message ====>", message);
+      console.log("Socket ID ====>", socket.socket.id);
+
       socket.emitChatMessage({
-        socketId: socketId.socket.id,
+        socketId: socket.socket.id,
         message: message,
-        user: currentUser,
       });
-      setChatHistory((prev) => [...prev, { user: currentUser, text: message }]);
+      setMessage("");
     }
-    setMessage("");
   };
-  console.log("chatHistory ==== >", chatHistory);
 
   return (
     <div className="chat-container">
       <div className="chat-popup">
         <div className="chat-header">
           <h4>Chat</h4>
-          {/* <button className="close-button">×</button> */}
         </div>
         <div className="chat-body">
           {chatHistory.map((msg, index) => (
             <div
               key={index}
               className={`chat-message ${
-                msg.user === currentUser ? "sender" : "receiver"
+                msg.user === "You" ? "sender" : "receiver"
               }`}
             >
-              <strong></strong> {msg.text}
+              {msg.text}
             </div>
           ))}
         </div>

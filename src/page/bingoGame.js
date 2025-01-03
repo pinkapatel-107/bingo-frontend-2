@@ -210,7 +210,7 @@ const BingoGame = () => {
           <button className="chat-toggle" onClick={chatButtonClick}>
             {isChatOpen ? "Close Chat" : "Open Chat"}
           </button>
-          {/* {isChatOpen &&!context.isOpponentDisconnected && <Chat socket={socket}/>} */}
+          {isChatOpen &&!context.isOpponentDisconnected && <Chat socket={socket}/>}
         </div>
       </div>
     </div>

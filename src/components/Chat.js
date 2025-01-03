@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import socket from "../socket/socket";
 
-const ChatComponent = () => {
+const ChatComponent = (socketId) => {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [currentUser, setCurrentUser] = useState("You");
 
   useEffect(() => {
-    socket.connectToSocket((data) => {
-      console.log("Socket connected successfully ====>", data);
-    });
+    // socket.connectToSocket((data) => {
+    //   console.log("Socket connected successfully ====>", data);
+    // });
     socket.listenChatMessage((data) => {
       setChatHistory((prev) => [
         ...prev,
@@ -23,11 +23,11 @@ const ChatComponent = () => {
 
   const handleSendMessage = () => {
     console.log("Sending message ====>", message);
-    console.log("Socket ID ====>", socket.socket.id);
+    console.log("Socket ID ====>", socketId.socket.id);
 
     if (message) {
       socket.emitChatMessage({
-        socketId: socket.socket.id,
+        socketId: socketId.socket.id,
         message: message,
         user: currentUser,
       });
@@ -42,7 +42,7 @@ const ChatComponent = () => {
       <div className="chat-popup">
         <div className="chat-header">
           <h4>Chat</h4>
-          <button className="close-button">×</button>
+          {/* <button className="close-button">×</button> */}
         </div>
         <div className="chat-body">
           {chatHistory.map((msg, index) => (

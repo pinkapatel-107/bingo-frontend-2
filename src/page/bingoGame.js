@@ -154,8 +154,9 @@ const BingoGame = () => {
     }
   };
 
-  const chatButtonClick = () => {
-    setIsChatOpen(true);
+  const chatButtonClick = (e) => {
+    console.log("chatButton click === >", e.target);
+    setIsChatOpen((prevState) => !prevState); 
   };
 
   const isDisabled = context.isRoomJoin.player !== context.currentTurn;
@@ -207,7 +208,7 @@ const BingoGame = () => {
           <button className="chat-toggle" onClick={chatButtonClick}>
             {isChatOpen ? "Close Chat" : "Open Chat"}
           </button>
-          {isChatOpen && <Chat/>}
+          {isChatOpen && <Chat socket={socket}/>}
         </div>
       </div>
     </div>

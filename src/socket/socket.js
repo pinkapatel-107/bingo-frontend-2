@@ -5,7 +5,7 @@ class MySocket {
   // http://localhost:3000
   // https://bingo-backend-p5sn.onrender.com
   constructor() {
-    this.socket = io("http://localhost:3000", {
+    this.socket = io("https://bingo-backend-p5sn.onrender.com", {
       transports: ["websocket"],
       reconnection: true,
     });

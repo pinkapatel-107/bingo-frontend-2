@@ -323,18 +323,18 @@ code {
 }
 
 .chat-message.sender {
-  background-color: #e1ffc7;
+  background-color: hsl(92, 54%, 65%);
   align-self: flex-end;
   text-align: right;
-  display: flex;
+  /* display: flex; */
   /* justify-content: end; */
   /* width: fit-content; */
 }
 
 .chat-message.receiver {
-  background-color: #f1f0f0;
+  background-color: #dad3d3;
   align-self: flex-start;
-  display: flex;
+  /* display: flex; */
   /* justify-content: end; */
   /* width: fit-content; */
   

@@ -322,7 +322,7 @@ code {
 .chat-message.sender {
   background-color: hsl(92, 54%, 65%);
   align-self: flex-end;
-  text-align: right;
+  /* text-align: right; */
   justify-self: end
   /* display: flex; */
   /* justify-content: end; */
